@@ -5,7 +5,7 @@
 - This is the official repository of D-PTUAC.
 - Project website: https://d-ptuac.github.io/
 - **Accepted in Scientific Data**
--Acronyms and Full Forms are shown in the table below.
+- Acronyms and Full Forms are shown in the table below.
 
 | Acronym | Full Form | Acronym      | Full Form   |
   | -------------- | ----- | -------- | -------- 
@@ -35,7 +35,7 @@
     
     a) Download [pretrained tracking results](https://github.com/HamadYA/D-PTUAC/releases/download/v2/tracking_results_pretrained.zip), rename it to **tracking_results**, and place it in [~/D-PTUAC/pytracking/pytracking/](https://github.com/HamadYA/D-PTUAC/tree/main/pytracking/pytracking).
     
-    b) Downlaoad, place it in [~/D-PTUAC/pytracking/pytracking/notebooks/](https://github.com/HamadYA/D-PTUAC/tree/main/pytracking/pytracking/notebooks), and run the pretrained evaluation codes [scentific_data_pretrained.ipynb](https://github.com/HamadYA/D-PTUAC/releases/download/v3/scentific_data_pretrained.ipynb)[scentific_data_pretrained_scenarios_P1.ipynb](https://github.com/HamadYA/D-PTUAC/releases/download/v3/scentific_data_pretrained_scenarios_P1.ipynb), and [scentific_data_pretrained_scenarios_P2.ipynb](https://github.com/HamadYA/D-PTUAC/releases/download/v3/scentific_data_pretrained_scenarios_P2.ipynb).
+    b) Download, place it in [~/D-PTUAC/pytracking/pytracking/notebooks/](https://github.com/HamadYA/D-PTUAC/tree/main/pytracking/pytracking/notebooks), and run the pretrained evaluation codes [scentific_data_pretrained.ipynb](https://github.com/HamadYA/D-PTUAC/releases/download/v3/scentific_data_pretrained.ipynb)[scentific_data_pretrained_scenarios_P1.ipynb](https://github.com/HamadYA/D-PTUAC/releases/download/v3/scentific_data_pretrained_scenarios_P1.ipynb), and [scentific_data_pretrained_scenarios_P2.ipynb](https://github.com/HamadYA/D-PTUAC/releases/download/v3/scentific_data_pretrained_scenarios_P2.ipynb).
 
     2) Finetuned models:
     
@@ -191,13 +191,165 @@
 
     by these [files](https://github.com/HamadYA/D-PTUAC/releases/tag/v5).
 
-    2) Rename got10k.py in ~/Visual Object Tracker/lib/train/dataset/got10k.py to got10k_original.py and change it by got10k.py in [files](https://github.com/HamadYA/D-PTUAC/releases/tag/v5).
+    2) For Training:
+    a) Rename got10k.py in ~/Visual Object Tracker/lib/train/dataset/got10k.py to got10k_original.py and change it by lib_got10k.py (change its name to got10k.py) in [files](https://github.com/HamadYA/D-PTUAC/releases/tag/v5).
+    b) Edit or replace experiments ~/Visual Object Tracker/experiments/Visual Object Tracker/baseline.yaml by these [files](https://github.com/HamadYA/D-PTUAC/releases/tag/v6).
 
+    3) There is no need to edit the testing data loader as our data follows the same format as got10k dataset.
+
+- For the following Visual Object Trackers: pytracking, TransformerTrack, SLTtrack, ettrack, TransT, and MKDNet.
+  
+    1) Replace ~/Visual Object Tracker/ltr/data_specs/*
+    a) got10k_train_full_split
+    b) got10k_train_split
+    c) got10k_val_split
+
+    by these [files](https://github.com/HamadYA/D-PTUAC/releases/tag/v5).
+
+    2) For Training:
+    a) Rename got10k.py in ~/Visual Object Tracker/ltr/dataset/got10k.py to got10k_original.py and change it by py_got10k.py (change its name to got10k.py) in [files](https://github.com/HamadYA/D-PTUAC/releases/tag/v5).
+    b) Edit or replace experiments ~/Visual Object Tracker/ltr/train_settings/Visual Object Tracker.py by these [files](https://github.com/HamadYA/D-PTUAC/releases/tag/v7) with each correspond to each Visual Object Tracker.
+
+    3) There is no need to edit the testing data loader as our data follows the same format as got10k dataset.
 
 ## Testing
 - AiATrack
+```sh
+    cd ~/AiATrack
+    python tracking/create_default_local_file.py --workspace_dir . --data_dir ./data --save_dir .
+    # Edit paths in ~/AiATrack/lib/test/evaluation/local.py and ~/AiATrack/lib/train/admin/local.py
+    python tracking/lib/test.py --param baseline --dataset got10k_test
+  ```
 
+- DropTrack
+  ```sh
+    cd ~/DropTrack
+    python tracking/create_default_local_file.py --workspace_dir . --data_dir ./data --save_dir ./output
+    # Edit paths in ~/DropTrack/lib/test/evaluation/local.py and ~/DropTrack/lib/train/admin/local.py
+    # Edit ~/DropTrack/lib/models/ostrack/ostrack.py by adding pretrained_path line 97 to the correct path which is:
+    python tracking/test.py ostrack vitb_384_mae_ce_32x4_ep300 --dataset got10k_test --threads 1 --num_gpus 1
+  ```
 
+- Stark
+  ```sh
+    cd ~/Stark
+    python tracking/create_default_local_file.py --workspace_dir . --data_dir ./data --save_dir .
+    # Edit paths in ~/Stark/lib/test/evaluation/local.py and ~/Stark/lib/train/admin/local.py
+    python tracking/test.py stark_st baseline_got10k_only --dataset got10k_test --threads 1
+  ```
+
+- SeqTrack
+  ```sh
+    cd ~/SeqTrack
+    python tracking/create_default_local_file.py --workspace_dir . --data_dir ./data --save_dir .
+    # Edit paths in ~/SeqTrack/lib/test/evaluation/local.py and ~/SeqTrack/lib/train/admin/local.py
+    python tracking/test.py seqtrack seqtrack_b256 --dataset got10k_test --threads 1
+  ```
+
+- NeighborTrack
+  ```sh
+    cd ~/NeighborTrack/trackers/ostrack/
+    python tracking/create_default_local_file.py --workspace_dir . --data_dir ./data --save_dir .
+    # Edit paths in ~/NeighborTrack/trackers/ostrack/lib/test/evaluation/local.py and ~/NeighborTrack/trackers/ostrack/lib/train/admin/local.py
+    python tracking/test.py ostrack vitb_384_mae_ce_32x4_ep300_neighbor --dataset got10k_test --threads 1 --num_gpus 1 --neighbor 1
+  ```
+
+- MixFormer
+  ```sh
+    cd ~/MixFormer
+    python tracking/create_default_local_file.py --workspace_dir . --data_dir ./data --save_dir .
+    # Edit paths in ~/MixFormer/lib/test/evaluation/local.py and ~/MixFormer/lib/train/admin/local.py
+    # Edit test_mixformer_*.sh and then run them
+    bash tracking/test_mixformer_cvt.sh
+  ```
+
+- pytracking
+  ```sh
+    cd ~/pytracking
+    # Environment settings for pytracking. Saved at pytracking/evaluation/local.py
+    python -c "from pytracking.evaluation.environment import create_default_local_file; create_default_local_file()"
+
+    # Environment settings for ltr. Saved at ltr/admin/local.py
+    python -c "from ltr.admin.environment import create_default_local_file; create_default_local_file()"
+
+    # Edit paths in ~/pytracking/pytracking/evaluation/local.py and ~/pytracking/ltr/admin/local.py
+    # You can run any tracker that the pytracking library provides such as the below command:
+    python pytracking/run_tracker tomp tomp50 --dataset_name got10k_test
+  ```
+
+- MKDNet
+  ```sh
+    cd ~/MKDNet
+    # Environment settings for pytracking. Saved at pytracking/evaluation/local.py
+    python -c "from pytracking.evaluation.environment import create_default_local_file; create_default_local_file()"
+
+    # Environment settings for ltr. Saved at ltr/admin/local.py
+    python -c "from ltr.admin.environment import create_default_local_file; create_default_local_file()"
+
+    # Edit paths in ~/MKDNet/pytracking/evaluation/local.py and ~/MKDNet/ltr/admin/local.py
+    python pytracking/run_tracker dimp super_dimp --dataset_name got10k_test
+  ```
+
+- TransformerTrack
+  ```sh
+    cd ~/TransformerTrack
+    # Environment settings for pytracking. Saved at pytracking/evaluation/local.py
+    python -c "from pytracking.evaluation.environment import create_default_local_file; create_default_local_file()"
+
+    # Environment settings for ltr. Saved at ltr/admin/local.py
+    python -c "from ltr.admin.environment import create_default_local_file; create_default_local_file()"
+
+    # Edit paths in ~/TransformerTrack/pytracking/evaluation/local.py and ~/TransformerTrack/ltr/admin/local.py
+    python pytracking/run_tracker trdimp trdimp --dataset_name got10k_test
+  ```
+
+- ettrack
+  ```sh
+    cd ~/ettrack
+    # Environment settings for pytracking. Saved at pytracking/evaluation/local.py
+    python -c "from pytracking.evaluation.environment import create_default_local_file; create_default_local_file()"
+
+    # Environment settings for ltr. Saved at ltr/admin/local.py
+    python -c "from ltr.admin.environment import create_default_local_file; create_default_local_file()"
+
+    # Edit paths in ~/ettrack/pytracking/evaluation/local.py and ~/ettrack/ltr/admin/local.py
+    python pytracking/run_tracker et_tracker et_tracker --dataset_name got10k_test
+  ```
+
+- SLTtrack
+  ```sh
+    cd ~/SLTtrack
+    # Environment settings for pytracking. Saved at pytracking/evaluation/local.py
+    python -c "from pytracking.evaluation.environment import create_default_local_file; create_default_local_file()"
+
+    # Environment settings for ltr. Saved at ltr/admin/local.py
+    python -c "from ltr.admin.environment import create_default_local_file; create_default_local_file()"
+
+    # Edit paths in ~/SLTtrack/pytracking/evaluation/local.py and ~/SLTtrack/ltr/admin/local.py
+    python pytracking/run_tracker slt_trdimp slt_trdimp --dataset_name got10k_test
+  ```
+
+- TransT
+  ```sh
+    cd ~/TransT
+    # Environment settings for pytracking. Saved at pytracking/evaluation/local.py
+    python -c "from pytracking.evaluation.environment import create_default_local_file; create_default_local_file()"
+
+    # Environment settings for ltr. Saved at ltr/admin/local.py
+    python -c "from ltr.admin.environment import create_default_local_file; create_default_local_file()"
+
+    # Edit paths in ~/TransT/pytracking/evaluation/local.py and ~/TransT/ltr/admin/local.py
+    python pytracking/run_tracker transt transt --dataset_name got10k_test
+  ```
+
+- TrTr
+  ```sh
+    # Put the dataset under TrTr/benchmark/dataset/GOT-10k
+    cd ~/TrTr
+    cd benchmark
+    # Edit and run
+    python test.py --cfg_file ../parameters/experiment/got10k/offline.yaml
+  ```
 
 ## Training
 - 
