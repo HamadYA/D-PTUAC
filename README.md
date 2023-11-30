@@ -6,6 +6,7 @@
 ## Introduction
 - This is the official repository of D-PTUAC.
 - Project website: https://d-ptuac.github.io/
+- Demo Video: https://www.youtube.com/watch?v=ivrBrjGawm4
 - **Accepted in Scientific Data**
 - Acronyms and Full Forms are shown in the table below.
 
