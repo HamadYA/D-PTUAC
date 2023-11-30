@@ -44,7 +44,7 @@
     b) Downlaoad, place it in [~/D-PTUAC/pytracking/pytracking/notebooks/](https://github.com/HamadYA/D-PTUAC/tree/main/pytracking/pytracking/notebooks), and run the finetuned evaluation code [scentific_data_finetuned.ipynb](https://github.com/HamadYA/D-PTUAC/releases/download/v3/scentific_data_finetuned.ipynb).
 
 ## Installation
-- We include the installation guide in install.md for each Visual Object Tracker.
+- We include the installation guide in [link](https://github.com/HamadYA/D-PTUAC/releases/tag/v8) for some Visual Object Trackers.
 
 ## Folder Structure
 - Download pretrained weights of all models and place them in the structure shown below.
@@ -216,7 +216,6 @@
 - AiATrack
 ```sh
     cd ~/AiATrack
-    python tracking/create_default_local_file.py --workspace_dir . --data_dir ./data --save_dir .
     # Edit paths in ~/AiATrack/lib/test/evaluation/local.py and ~/AiATrack/lib/train/admin/local.py
     python tracking/lib/test.py --param baseline --dataset got10k_test
   ```
@@ -246,10 +245,18 @@
     python tracking/test.py seqtrack seqtrack_b256 --dataset got10k_test --threads 1
   ```
 
+- OSTrack
+  ```sh
+    cd ~/OSTrack
+    python tracking/create_default_local_file.py --workspace_dir . --data_dir ./data --save_dir ./output
+    # Edit paths in ~/OSTrack/lib/test/evaluation/local.py and ~/OSTrack/lib/train/admin/local.py
+    python tracking/test.py ostrack vitb_384_mae_ce_32x4_ep300 --dataset got10k_test --threads 1 --num_gpus 1
+  ```
+
 - NeighborTrack
   ```sh
     cd ~/NeighborTrack/trackers/ostrack/
-    python tracking/create_default_local_file.py --workspace_dir . --data_dir ./data --save_dir .
+    python tracking/create_default_local_file.py --workspace_dir . --data_dir ./data --save_dir ./output
     # Edit paths in ~/NeighborTrack/trackers/ostrack/lib/test/evaluation/local.py and ~/NeighborTrack/trackers/ostrack/lib/train/admin/local.py
     python tracking/test.py ostrack vitb_384_mae_ce_32x4_ep300_neighbor --dataset got10k_test --threads 1 --num_gpus 1 --neighbor 1
   ```
@@ -275,6 +282,20 @@
     # Edit paths in ~/pytracking/pytracking/evaluation/local.py and ~/pytracking/ltr/admin/local.py
     # You can run any tracker that the pytracking library provides such as the below command:
     python pytracking/run_tracker tomp tomp50 --dataset_name got10k_test
+  ```
+
+- DeT
+  ```sh
+    cd ~/DeT
+    # You need to download the dataset with monocular depth images which can be found in [1](https://kuacae-my.sharepoint.com/:f:/g/personal/100061914_ku_ac_ae/EmraqT_5nCNHsIyBNUdHDbkBq22XAUudYv7XB7v1zgeBKw?e=o3mxit) and [depth](https://doi.org/10.6084/m9.figshare.24081597.v1) (please cite)
+    # Environment settings for pytracking. Saved at pytracking/evaluation/local.py
+    python -c "from pytracking.evaluation.environment import create_default_local_file; create_default_local_file()"
+
+    # Environment settings for ltr. Saved at ltr/admin/local.py
+    python -c "from ltr.admin.environment import create_default_local_file; create_default_local_file()"
+
+    # Edit paths in ~/MKDNet/pytracking/evaluation/local.py and ~/MKDNet/ltr/admin/local.py
+    python pytracking/run_tracker dimp DeT_DiMP50_Mean --dataset_name got10k_test
   ```
 
 - MKDNet
@@ -344,14 +365,135 @@
 
 - TrTr
   ```sh
-    # Put the dataset under TrTr/benchmark/dataset/GOT-10k
+    # Place the dataset under TrTr/benchmark/dataset/GOT-10k
     cd ~/TrTr
     cd benchmark
     # Edit and run
     python test.py --cfg_file ../parameters/experiment/got10k/offline.yaml
   ```
 
+  - TATrack
+  ```sh
+    cd ~/TATrack
+    # Edit and run
+    python main/test.py --config experiments/tatrack/test/base/got.yaml
+  ```
+
 ## Training
-- 
+- AiATrack
+```sh
+    cd ~/AiATrack
+    # Edit paths in ~/AiATrack/lib/test/evaluation/local.py and ~/AiATrack/lib/train/admin/local.py
+    # After preparing the environment and following the data loader guide, you can run:
+    python tracking/train.py --mode single --nproc 1
+  ```
+
+- DropTrack
+```sh
+    cd ~/DropTrack
+    # Edit paths in ~/DropTrack/lib/test/evaluation/local.py and ~/DropTrack/lib/train/admin/local.py
+    # After preparing the environment and following the data loader guide, you can run:
+    python tracking/train.py --script ostrack --config vitb_384_mae_ce_32x4_ep300 --save_dir save_path  --mode single --nproc_per_node 1 --use_lmdb 0 --use_wandb 0
+  ```
+
+- Stark
+```sh
+    cd ~/Stark
+    # Edit paths in ~/Stark/lib/test/evaluation/local.py and ~/Stark/lib/train/admin/local.py
+    # After preparing the environment and following the data loader guide, you can run:
+    python tracking/train.py --script stark_st1 --config baseline --save_dir . --mode single --nproc_per_node 1  # STARK-ST50 Stage1
+    python tracking/train.py --script stark_st2 --config baseline --save_dir . --mode single --nproc_per_node 1 --script_prv stark_st1 --config_prv baseline  # STARK-ST50 Stage2
+  ```
+
+- OSTrack
+```sh
+    cd ~/OSTrack
+    # Edit paths in ~/OSTrack/lib/test/evaluation/local.py and ~/OSTrack/lib/train/admin/local.py
+    # After preparing the environment and following the data loader guide, you can run:
+    python tracking/train.py --script ostrack --config vitb_384_mae_ce_32x4_ep300 --save_dir ./output --mode single --nproc_per_node 1 --use_wandb 1
+  ```
+
+- SeqTrack
+```sh
+    cd ~/SeqTrack
+    # Edit paths in ~/SeqTrack/lib/test/evaluation/local.py and ~/SeqTrack/lib/train/admin/local.py
+    # After preparing the environment and following the data loader guide, you can run:
+    python tracking/train.py --script seqtrack --config seqtrack_b256 --save_dir . --mode single
+  ```
+
+- MixFormer
+```sh
+    cd ~/MixFormer
+    # Edit paths in ~/MixFormer/lib/test/evaluation/local.py and ~/MixFormer/lib/train/admin/local.py
+    # After preparing the environment and following the data loader guide, you can run (first, edit train_mixformer_cvt.sh):
+    bash tracking/train_mixformer_cvt.sh
+  ```
+
+- pytracking
+```sh
+    cd ~/pytracking
+    # Edit paths in ~/pytracking/pytracking/evaluation/local.py and ~/pytracking/ltr/admin/local.py
+    # You can train any tracker that the pytracking library provides such as the below command:
+    python run_training.py dimp super_dimp
+  ```
+
+- MKDNet
+```sh
+    cd ~/MKDNet
+    # Edit paths in ~/MKDNet/pytracking/evaluation/local.py and ~/MKDNet/ltr/admin/local.py
+    # You can train any tracker that the pytracking library provides such as the below command:
+    python run_training.py dimp super_dimp
+  ```
+
+- TransformerTrack
+```sh
+    cd ~/TransformerTrack
+    # Edit paths in ~/TransformerTrack/pytracking/evaluation/local.py and ~/TransformerTrack/ltr/admin/local.py
+    # You can train any tracker that the pytracking library provides such as the below command:
+    python run_training.py trdimp trdimp
+  ```
+
+- SLTtrack
+```sh
+    cd ~/SLTtrack
+    # Edit paths in ~/SLTtrack/pytracking/evaluation/local.py and ~/SLTtrack/ltr/admin/local.py
+    # You can train any tracker that the pytracking library provides such as the below command:
+    python run_training.py slt_trdimp slt_trdimp
+  ```
+
+- DeT
+```sh
+    cd ~/DeT
+    # Edit paths in ~/DeT/pytracking/evaluation/local.py and ~/DeT/ltr/admin/local.py
+    # You can train any tracker that the pytracking library provides such as the below command:
+    python run_training.py dimp DeT_DiMP50_Mean
+  ```
 
 
+
+# Citing
+  - **BibTeX**
+    ```bibtex
+    @article{Alansari2023_with_depth,
+    author = "Mohamad Alansari",
+    title = "{D-PTUAC.zip}",
+    year = "2023",
+    month = "9",
+    url = "https://figshare.com/articles/dataset/D-PTUAC_zip/24081597",
+    doi = "10.6084/m9.figshare.24081597.v1"
+    }
+    ```
+    ```bibtex
+    @article{Alansari2023,
+    author = "Mohamad Alansari and Oussama Abdulhay and Sara Alansari and Sajid Javed and Abdulhadi Shoufan and Yahya Zweiri and Naoufel Werghi",
+    title = "{Drone-Person Tracking in Uniform Appearance Crowd (D-PTUAC)}",
+    year = "2023",
+    month = "11",
+    url = "https://figshare.com/articles/dataset/Drone-Person_Tracking_in_Uniform_Appearance_Crowd_D-PTUAC_/24590568",
+    doi = "10.6084/m9.figshare.24590568.v2"
+    }
+    ```
+
+
+  - **Latest DOI**: [![DOI](https://zenodo.org/badge/229437028.svg)](https://zenodo.org/badge/latestdoi/229437028)
+***
