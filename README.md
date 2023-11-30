@@ -491,7 +491,3 @@
     doi = "10.6084/m9.figshare.24590568.v2"
     }
     ```
-
-
-  - **Latest DOI**: [![DOI](https://zenodo.org/badge/229437028.svg)](https://zenodo.org/badge/latestdoi/229437028)
-***
