@@ -1,6 +1,10 @@
 
 # D-PTUAC: A Drone-Person Tracking in Uniform Appearance Crowd: A New Dataset
 
+- Samples of the proposed Drone-Person Tracking in Uniform Appearance Crowd (D-PTUAC) dataset showcases challenging attributes (IV, BC, UF, OCC, PV, MB, FM, OV, AAC, ARC, DEF, ROT, CD, SV, ST, LT) through: Row 1: RGB sample images, Row 2: Depth sample images, and Row 3: Segmentation masks sample images. Columns in the figure display samples with multiple attributes. Column (a) has IV, BC, and UF, column (b) has OCC, BC, IV, and UF, column (c) has IV, BC, and UF, column (d) has OCC, BC, IV, UF, and PV, column (e) DEF, LR, BC, IV, and UF, column (f) has MB, and FM, and column (g) has OV. These images emphasize the importance of developing robust drone-person tracking methods.
+
+![D-PTUAC](/images/samples.png)
+
 ## Introduction
 - This is the official repository of D-PTUAC.
 - Project website: https://d-ptuac.github.io/
@@ -23,10 +27,6 @@
 | OV | Out of View | S5 | Scenario 5 |
 | OCC | Occlusion | FOC | Full Occlusion |
 | POC | Partial Occlusion | VOT | Visual Object Tracking |
-
-- Samples of the proposed Drone-Person Tracking in Uniform Appearance Crowd (D-PTUAC) dataset showcases challenging attributes (IV, BC, UF, OCC, PV, MB, FM, OV, AAC, ARC, DEF, ROT, CD, SV, ST, LT) through: Row 1: RGB sample images, Row 2: Depth sample images, and Row 3: Segmentation masks sample images. Columns in the figure display samples with multiple attributes. Column (a) has IV, BC, and UF, column (b) has OCC, BC, IV, and UF, column (c) has IV, BC, and UF, column (d) has OCC, BC, IV, UF, and PV, column (e) DEF, LR, BC, IV, and UF, column (f) has MB, and FM, and column (g) has OV. These images emphasize the importance of developing robust drone-person tracking methods.
-
-![D-PTUAC](/images/samples.png)
 
 ## Reproducability
 - To reproduce the VOT results:
