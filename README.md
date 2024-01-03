@@ -5,7 +5,8 @@
 
 ## Introduction
 - This is the official repository of D-PTUAC.
-- Project website: https://d-ptuac.github.io/
+- Paper LinkL https://www.nature.com/articles/s41597-023-02810-y
+- Project Website: https://d-ptuac.github.io/
 - Demo Video: https://www.youtube.com/watch?v=ivrBrjGawm4
 - **Accepted in Scientific Data**
 - Acronyms and Full Forms are shown in the table below.
