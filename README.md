@@ -8,6 +8,7 @@
 - Paper Link: https://www.nature.com/articles/s41597-023-02810-y
 - Project Website: https://d-ptuac.github.io/
 - Demo Video: https://www.youtube.com/watch?v=ivrBrjGawm4
+- Links: [RGB](https://figshare.com/articles/dataset/Drone-Person_Tracking_in_Uniform_Appearance_Crowd_D-PTUAC_/24590568)[RGB-D](https://figshare.com/articles/dataset/D-PTUAC_zip/24081597)[Evaluation Scripts](https://figshare.com/articles/software/D-PTUAC_Evaluation_Scripts/24590268)[Query Faces](https://figshare.com/articles/dataset/Query_Faces_for_Drone-Person_Tracking_in_Uniform_Appearance_Crowd_A_New_Dataset_/31795552)
 - **Accepted in Scientific Data**
 - Acronyms and Full Forms are shown in the table below.
 
